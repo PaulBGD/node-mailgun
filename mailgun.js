@@ -49,23 +49,24 @@ var xre = function() {
 // This class is used to tie functionality to an API key, rather than
 // using a global initialization function that forces people to use
 // only one API key per application.
-var Mailgun = function(apiKey) {
+var Mailgun = function(apiKey, hostUrl) {
 
   // Authentication uses the api key in base64 form, so we cache that
   // here.
   this._apiKey64 = new Buffer('api:' + apiKey).toString('base64');
 
   this._apiKey = apiKey;
+  this._hostUrl = hostUrl;
 };
 Mailgun.prototype = {};
 
 // Utility method to set up required http options.
 Mailgun.prototype._createHttpOptions = function(resource, method, servername) {
   return {
-    host: 'api.mailgun.net',
+    host: 'api.mailgun.net,
     port: 443,
     method: method,
-    path: '/api/' + resource + (servername ? '?servername=' + servername : ''),
+    path: this._hostUrl || '/api/' + resource + (servername ? '?servername=' + servername : ''),
 
     headers: {
       'Authorization': 'Basic ' + this._apiKey64
