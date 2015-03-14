@@ -63,7 +63,7 @@ Mailgun.prototype = {};
 // Utility method to set up required http options.
 Mailgun.prototype._createHttpOptions = function(resource, method, servername) {
   return {
-    host: 'api.mailgun.net,
+    host: 'api.mailgun.net',
     port: 443,
     method: method,
     path: this._hostUrl || '/api/' + resource + (servername ? '?servername=' + servername : ''),
